@@ -1,0 +1,6 @@
+▲ Next.js 16.2.9 (Turbopack)
+- Local:         http://localhost:3005
+- Network:       http://192.168.16.77:3005
+- Environments: .env
+✓ Ready in 566ms
+[?25h

@@ -1,0 +1,59 @@
+﻿
+> src\app\(dashboard)\achats-fournisseur\page.tsx:93:            <input className="input" placeholder="Rechercher par 
+expédition, fournisseur..." value={search} onChange={e => setSearch(e.target.value)} />
+  src\app\(dashboard)\achats-fournisseur\page.tsx:94:          </div>
+  src\app\(dashboard)\achats-fournisseur\page.tsx:95:        </div>
+> src\app\(dashboard)\clients\page.tsx:95:            <input className="input" placeholder="Rechercher par nom, email 
+ou référence..." value={search} onChange={e => setSearch(e.target.value)} />
+  src\app\(dashboard)\clients\page.tsx:96:          </div>
+  src\app\(dashboard)\clients\page.tsx:97:        </div>
+> src\app\(dashboard)\conteneurs\page.tsx:124:            <input className="input" placeholder="Rechercher par 
+numéro..." value={search} onChange={e => setSearch(e.target.value)} />
+  src\app\(dashboard)\conteneurs\page.tsx:125:          </div>
+  src\app\(dashboard)\conteneurs\page.tsx:126:        </div>
+> src\app\(dashboard)\demandes-achat\page.tsx:73:            <input className="input" placeholder="Rechercher par 
+référence, article, client..." value={search} onChange={e => setSearch(e.target.value)} />
+  src\app\(dashboard)\demandes-achat\page.tsx:74:          </div>
+  src\app\(dashboard)\demandes-achat\page.tsx:75:        </div>
+> src\app\(dashboard)\depenses\page.tsx:81:            <input className="input" placeholder="Rechercher par conteneur, 
+type..." value={search} onChange={e => setSearch(e.target.value)} />
+  src\app\(dashboard)\depenses\page.tsx:82:          </div>
+  src\app\(dashboard)\depenses\page.tsx:83:        </div>
+> src\app\(dashboard)\documents\page.tsx:95:            <input className="input" placeholder="Rechercher par titre, 
+type..." value={search} onChange={e => setSearch(e.target.value)} />
+  src\app\(dashboard)\documents\page.tsx:96:          </div>
+  src\app\(dashboard)\documents\page.tsx:97:        </div>
+> src\app\(dashboard)\expeditions\page.tsx:126:            <input className="input" placeholder="Rechercher par 
+référence, client..." value={search} onChange={e => setSearch(e.target.value)} />
+  src\app\(dashboard)\expeditions\page.tsx:127:          </div>
+  src\app\(dashboard)\expeditions\page.tsx:128:        </div>
+> src\app\(dashboard)\factures\page.tsx:79:            <input className="input" placeholder="Rechercher facture..." 
+value={search} onChange={e => setSearch(e.target.value)} />
+  src\app\(dashboard)\factures\page.tsx:80:          </div>
+  src\app\(dashboard)\factures\page.tsx:81:        </div>
+> src\app\(dashboard)\finance-conteneur\page.tsx:98:            <input className="input" placeholder="Rechercher un 
+conteneur..." value={search} onChange={e => setSearch(e.target.value)} />
+  src\app\(dashboard)\finance-conteneur\page.tsx:99:          </div>
+  src\app\(dashboard)\finance-conteneur\page.tsx:100:        </div>
+> src\app\(dashboard)\fournisseurs\page.tsx:73:            <input className="input" placeholder="Rechercher 
+fournisseur..." value={search} onChange={e => setSearch(e.target.value)} />
+  src\app\(dashboard)\fournisseurs\page.tsx:74:          </div>
+  src\app\(dashboard)\fournisseurs\page.tsx:75:        </div>
+> src\app\(dashboard)\paiements\page.tsx:71:            <input className="input" placeholder="Rechercher par 
+expédition, type..." value={search} onChange={e => setSearch(e.target.value)} />
+  src\app\(dashboard)\paiements\page.tsx:72:          </div>
+  src\app\(dashboard)\paiements\page.tsx:73:        </div>
+> src\app\(dashboard)\stock\page.tsx:76:            <input className="input" placeholder="Rechercher par article, 
+client, expédition..." value={search} onChange={e => setSearch(e.target.value)} />
+  src\app\(dashboard)\stock\page.tsx:77:          </div>
+  src\app\(dashboard)\stock\page.tsx:78:        </div>
+> src\app\(dashboard)\suivi-production\page.tsx:74:            <input className="input" placeholder="Rechercher par 
+expédition, étape..." value={search} onChange={e => setSearch(e.target.value)} />
+  src\app\(dashboard)\suivi-production\page.tsx:75:          </div>
+  src\app\(dashboard)\suivi-production\page.tsx:76:        </div>
+> src\app\(dashboard)\utilisateurs\page.tsx:59:            <input className="input" placeholder="Rechercher par nom, 
+email, rôle..." value={search} onChange={e => setSearch(e.target.value)} />
+  src\app\(dashboard)\utilisateurs\page.tsx:60:          </div>
+  src\app\(dashboard)\utilisateurs\page.tsx:61:        </div>
+
+

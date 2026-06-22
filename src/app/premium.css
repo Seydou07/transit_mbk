@@ -1,0 +1,789 @@
+/* PREMIUM UI OVERRIDES */
+
+/* Variables and General settings */
+:root {
+  --premium-focus-ring: var(--primary-glow);
+  --premium-shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.2);
+  --premium-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --premium-shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.6);
+  --premium-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================================================
+   0. Glassmorphism Utilities
+   ========================================================================== */
+.glass-panel {
+  background: var(--bg-glass) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-glass) !important;
+}
+
+/* ==========================================================================
+   1. Modals (Glassmorphism, Shadows, Animations)
+   ========================================================================== */
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.4) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  animation: fadeIn 0.2s ease-out;
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+}
+
+.modal-content {
+  background: var(--bg-surface) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--premium-shadow-lg) !important;
+  border: 1px solid var(--border-light) !important;
+  animation: modalScale 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 0 !important;
+  overflow: hidden;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 51;
+  max-height: 90vh;
+}
+
+.modal-header {
+  padding: 24px 32px 16px 32px !important;
+  border-bottom: 1px solid var(--border-glass) !important;
+}
+
+.modal-header-title {
+  font-weight: 600 !important;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.25rem !important;
+  color: var(--text-primary);
+}
+
+.modal-body {
+  padding: 24px 32px !important;
+}
+
+.modal-footer {
+  padding: 1rem 1.5rem !important;
+  border-top: 1px solid #E2E8F0 !important;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.75rem;
+  background-color: #F8FAFC;
+}
+
+.modal-close-btn {
+  border-radius: 50%;
+  padding: 8px;
+  transition: var(--premium-transition);
+  color: var(--text-secondary);
+}
+.modal-close-btn:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--white);
+  transform: rotate(90deg);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes modalScale {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(0.95); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(0.95); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+/* ==========================================================================
+   2. Inputs & Form Elements
+   ========================================================================== */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.form-label, .label {
+  display: block;
+  font-size: 0.625rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #94A3B8;
+  letter-spacing: 0.02em;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  width: 100%;
+  height: 36px;
+  padding: 0 1rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: #fff;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 12px;
+  color: #1E293B;
+  transition: all 0.3s ease;
+  outline: none;
+  font-family: inherit;
+}
+.input::placeholder {
+  color: #94A3B8;
+  font-weight: 600;
+}
+.input:focus {
+  border-color: #0077B6;
+  box-shadow: 0 0 0 2px rgba(0, 119, 182, 0.2);
+}
+.input:hover:not(:focus) {
+  border-color: #CBD5E1;
+}
+.input-with-icon {
+  padding-left: 2.5rem;
+}
+
+.input-icon {
+  position: absolute;
+  left: 0.75rem;
+  color: #94A3B8;
+  pointer-events: none;
+  display: flex;
+}
+.input-wrapper:focus-within .input-icon {
+  color: #0077B6;
+}
+
+.input-clear-btn {
+  position: absolute;
+  right: 8px;
+  background: transparent;
+  border: none;
+  color: #94A3B8;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  display: flex;
+  transition: all 0.15s ease;
+}
+.input-clear-btn:hover {
+  background: #F1F5F9;
+  color: #475569;
+}
+
+.input-error {
+  border-color: #FCA5A5;
+}
+.input-error:focus {
+  border-color: #EF4444;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15);
+}
+
+.input-err {
+  font-size: 0.75rem;
+  color: #EF4444;
+  font-weight: 500;
+  margin-top: 0.125rem;
+}
+
+.input-search {
+  max-width: 320px;
+}
+
+/* ==========================================================================
+   3. Data Tables
+   ========================================================================== */
+/* TableCard Container */
+.table-card {
+  background: var(--bg-surface);
+  border-radius: 24px;
+  border: 1px solid var(--border-glass);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  padding: 0.5rem;
+  overflow: hidden;
+}
+
+/* ChartCard Container */
+.chart-card {
+  background: var(--bg-surface);
+  border-radius: 24px;
+  border: 1px solid var(--border-glass);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  padding: 1.5rem;
+  position: relative;
+  min-height: 320px;
+}
+.chart-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 2rem;
+  right: 2rem;
+  height: 3px;
+  background: linear-gradient(90deg, #0077B6, #00B4D8, #8B5CF6, #EC4899);
+  border-radius: 0 0 4px 4px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  text-align: left;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: 12px;
+  background: var(--bg-surface);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.table thead th {
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: #334155;
+  font-weight: 700;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #E2E8F0;
+  background-color: #F8FAFC;
+  vertical-align: middle;
+}
+
+.table tbody tr {
+  transition: background-color 0.15s ease;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.table tbody tr:hover {
+  background-color: #F8FAFC;
+}
+
+.table tbody td {
+  padding: 0.75rem 1.25rem;
+  color: #475569;
+  vertical-align: middle;
+  font-size: 0.875rem;
+}
+
+.table .text-right {
+  text-align: right;
+}
+
+/* Alert rows */
+.table tbody tr.alert-danger {
+  border-left: 4px solid #EF4444;
+}
+.table tbody tr.alert-warning {
+  border-left: 4px solid #F59E0B;
+}
+
+/* Badges updates for pastel colors */
+.badge {
+  padding: 6px 12px !important;
+  border-radius: 9999px !important;
+  font-size: 0.75rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.025em;
+  border: none !important;
+}
+.badge-success { background-color: #dcfce7 !important; color: #166534 !important; }
+.badge-warning { background-color: #fef9c3 !important; color: #854d0e !important; }
+.badge-danger { background-color: #fee2e2 !important; color: #991b1b !important; }
+.badge-info { background-color: #dbeafe !important; color: #1e40af !important; }
+.badge-default { background-color: #f3f4f6 !important; color: #374151 !important; }
+
+
+/* ==========================================================================
+   4. Pagination
+   ========================================================================== */
+.pagination-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background: transparent;
+}
+
+.pagination-buttons {
+  display: flex;
+  gap: 6px;
+}
+
+.pagination-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px; /* Slightly rounded square */
+  border: 1px solid transparent;
+  background-color: transparent;
+  color: #6b7280;
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition: var(--premium-transition);
+  cursor: pointer;
+}
+
+.pagination-btn:not(:disabled):hover {
+  background-color: #f3f4f6;
+  color: #111827;
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-btn.active {
+  background-color: var(--fleet-blue, #0070f3);
+  color: white;
+  box-shadow: 0 4px 10px var(--premium-focus-ring);
+  border-color: var(--fleet-blue, #0070f3);
+}
+
+/* ==========================================================================
+   5. Buttons (Micro-interactions)
+   ========================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 700;
+  border-radius: 14px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  outline: none;
+  letter-spacing: 0.03em;
+}
+
+/* Button Sizes */
+.btn-sm {
+  height: 34px;
+  padding: 0 1.25rem;
+  font-size: 0.6875rem;
+}
+.btn-md {
+  height: 36px;
+  padding: 0 2rem;
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 12px;
+}
+.btn-lg {
+  height: 44px;
+  padding: 0 2.5rem;
+  font-size: 0.8125rem;
+}
+
+/* Modal footer buttons - larger padding */
+.modal-footer .btn-md {
+  padding: 0 2.5rem;
+  font-weight: 700;
+}
+.modal-footer .btn-primary {
+  box-shadow: 0 4px 15px -3px rgba(0, 119, 182, 0.35);
+}
+
+/* Button States */
+.btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+.btn:focus-visible:not(:disabled) {
+  box-shadow: 0 0 0 3px rgba(0, 119, 182, 0.25);
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Button Variants */
+.btn-primary {
+  background: linear-gradient(135deg, #0077B6 0%, #023E8A 100%);
+  color: white;
+  box-shadow: 0 4px 15px -3px rgba(0, 119, 182, 0.3);
+}
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px -3px rgba(0, 119, 182, 0.4);
+}
+
+.btn-secondary {
+  background-color: #F0F9FF;
+  color: #0077B6;
+  border-color: rgba(0, 119, 182, 0.2);
+}
+.btn-secondary:hover:not(:disabled) {
+  background-color: #E0F2FE;
+  border-color: rgba(0, 119, 182, 0.35);
+}
+
+.btn-danger {
+  background-color: #FEF2F2;
+  color: #DC2626;
+  border-color: rgba(220, 38, 38, 0.2);
+}
+.btn-danger:hover:not(:disabled) {
+  background-color: #FEE2E2;
+  border-color: rgba(220, 38, 38, 0.35);
+  color: #B91C1C;
+}
+
+.btn-ghost {
+  background-color: #F8FAFC;
+  color: #475569;
+  border-color: #E2E8F0;
+}
+.btn-ghost:hover:not(:disabled) {
+  background-color: #F1F5F9;
+  border-color: #CBD5E1;
+  color: #1E293B;
+}
+
+.btn-success {
+  background-color: #F0FDF4;
+  color: #16A34A;
+  border-color: rgba(22, 163, 74, 0.2);
+}
+.btn-success:hover:not(:disabled) {
+  background-color: #DCFCE7;
+  border-color: rgba(22, 163, 74, 0.35);
+}
+
+/* Premium Shine Effect */
+.btn-premium {
+  position: relative;
+  overflow: hidden;
+}
+.btn-premium::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.6s ease;
+}
+.btn-premium:hover::before {
+  left: 100%;
+}
+
+.btn svg {
+  transition: transform 0.2s ease;
+}
+
+/* Micro animation for icons inside buttons on hover */
+.btn:hover svg.lucide-arrow-right {
+  transform: translateX(3px);
+}
+.btn:hover svg.lucide-arrow-left {
+  transform: translateX(-3px);
+}
+
+/* ==========================================================================
+   6. Page Layout
+   ========================================================================== */
+.page-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+.page-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+.card {
+  background: var(--bg-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--premium-shadow-md);
+  border: 1px solid var(--border-glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.icon-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   7. Search Bar
+   ========================================================================== */
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 320px;
+}
+.input-group > .input {
+  height: 38px;
+  font-size: 0.8125rem;
+  padding: 0 0.75rem;
+  border-radius: 8px;
+}
+
+/* ==========================================================================
+   8. Form Elements
+   ========================================================================== */
+.form-select, .select {
+  width: 100%;
+  height: 36px;
+  padding: 0 1rem;
+  padding-right: 2.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: #fff;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 12px;
+  color: #1E293B;
+  transition: all 0.15s ease;
+  outline: none;
+  font-family: inherit;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 14px;
+}
+.form-select:focus, .select:focus {
+  border-color: #0077B6;
+  box-shadow: 0 0 0 2px rgba(0, 119, 182, 0.2);
+}
+.form-select:hover:not(:focus), .select:hover:not(:focus) {
+  border-color: #CBD5E1;
+}
+.form-select option, .select option {
+  background: #fff;
+  color: #1E293B;
+  font-weight: 600;
+}
+
+.modal-body .form-select,
+.modal-body .select {
+  background: #fff;
+  border: 1.5px solid #E2E8F0;
+}
+.modal-body .form-select:focus,
+.modal-body .select:focus {
+  border-color: #0077B6;
+  box-shadow: 0 0 0 3px rgba(0, 119, 182, 0.12);
+}
+
+/* Textarea */
+textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 0.625rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: #fff;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 12px;
+  color: #1E293B;
+  transition: all 0.15s ease;
+  outline: none;
+  font-family: inherit;
+  resize: vertical;
+}
+textarea:focus {
+  border-color: #0077B6;
+  box-shadow: 0 0 0 2px rgba(0, 119, 182, 0.2);
+}
+textarea:hover:not(:focus) {
+  border-color: #CBD5E1;
+}
+
+/* ==========================================================================
+   9. Modal Form Blocks (pastille + colored header sections)
+   ========================================================================== */
+.modal-form-block {
+  background: #F8FAFC;
+  border: 1px solid #F1F5F9;
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+.modal-form-block-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.modal-form-block-pastille {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.modal-form-block-title {
+  font-size: 0.5625rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.modal-form-block-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.modal-grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.75rem 1rem;
+}
+
+/* ==========================================================================
+    10. Modal Sections
+   ========================================================================== */
+.modal-section {
+  margin-bottom: 1rem;
+}
+.modal-section-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-glass);
+}
+.modal-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 1.5rem;
+}
+
+/* ==========================================================================
+   10. Button Variants
+   ========================================================================== */
+.btn-icon {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius);
+}
+.btn-danger {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--danger);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+.btn-danger:hover:not(:disabled) {
+  background-color: var(--danger);
+  color: white;
+  box-shadow: 0 8px 24px rgba(239, 68, 68, 0.4);
+  transform: translateY(-2px);
+}
+.btn-success {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: var(--success);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+.btn-success:hover:not(:disabled) {
+  background-color: var(--success);
+  color: white;
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   11. Dashboard Layout Grids
+   ========================================================================== */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.chart-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 1.25rem;
+}
+
+.alert-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--border-glass);
+  transition: var(--premium-transition);
+}
+.alert-item:hover {
+  background-color: rgba(255,255,255,0.02);
+  transform: translateX(4px);
+  border-radius: var(--radius-sm);
+  padding-left: 0.5rem;
+  border-bottom-color: transparent;
+}
+.alert-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+/* ==========================================================================
+   12. Utilities (Spans & Layouts)
+   ========================================================================== */
+.col-span-1 { grid-column: span 1 / span 1; }
+.col-span-2 { grid-column: span 2 / span 2; }
+.col-span-3 { grid-column: span 3 / span 3; }
+.col-span-4 { grid-column: span 4 / span 4; }
+
+.modal-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.modal-grid-1 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .modal-layout-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+}
+
+/* Hide scrollbars everywhere - keeps scroll functionality */
+::-webkit-scrollbar {
+  display: none;
+}
+* {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

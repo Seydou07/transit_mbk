@@ -1,0 +1,6 @@
+▲ Next.js 16.2.9 (webpack)
+- Local:         http://localhost:3012
+- Network:       http://192.168.16.77:3012
+- Environments: .env
+✓ Ready in 685ms
+

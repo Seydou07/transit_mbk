@@ -1,0 +1,554 @@
+// prisma/schema.prisma
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Client {
+  id                Int           @id @default(autoincrement())
+  reference         String        @unique
+  nom               String
+  typeClient        ClientType?   @default(ENTREPRISE)
+  telephone         String?
+  telephoneSecondaire String?
+  email             String?
+  adresse           String?
+  ville             String?
+  pays              String?
+  numeroCNIB        String?
+  photoCNIB         String?
+  numeroIFU         String?
+  registreCommerce  String?
+  photoRCCM         String?
+  plafondCredit     Decimal?      @db.Decimal(14, 2)
+  conditionsPaiement String?
+  notes             String?       @db.Text
+  statut            ClientStatut  @default(ACTIF)
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  expeditions       Expedition[]
+  demandesAchat     DemandeAchat[]
+  stocks            Stock[]
+  livraisons        Livraison[]
+  factures          Facture[]
+}
+
+model Fournisseur {
+  id                  Int       @id @default(autoincrement())
+  reference           String    @unique
+  nom                 String
+  contact             String?
+  contactPrincipal    String?
+  telephone           String?
+  email               String?
+  adresse             String?
+  ville               String?
+  pays                String?
+  lienAlibaba         String?
+  lien1688            String?
+  wechat              String?
+  whatsApp            String?
+  siteWeb             String?
+  conditionsPaiement  String?
+  delaiProductionMoyen Int?
+  notes               String?   @db.Text
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  expeditions         Expedition[]
+  achats              AchatFournisseur[]
+}
+
+model Expedition {
+  id                  Int                   @id @default(autoincrement())
+  reference           String                @unique
+  clientId            Int
+  fournisseurId       Int?
+  typeCommande        TypeCommande          @default(TRANSIT)
+  portOrigine         String?
+  paysOrigine         String?
+  portDestination     String?
+  paysDestination     String?
+  typeTransport       TypeTransport         @default(MARITIME)
+  statut              ExpeditionStatut      @default(EN_ATTENTE)
+  incoterm            String?
+  devise              String?               @default("USD")
+  coutExpedition      Decimal?              @db.Decimal(14, 2)
+  argentRecu          Decimal?              @db.Decimal(14, 2)
+  poidsTotalKg        Decimal?              @db.Decimal(10, 2)
+  cbmTotal            Decimal?              @db.Decimal(10, 3)
+  nombreColis         Int?
+  dateDepartPrevue    DateTime?
+  dateArriveePrevue   DateTime?
+  descriptionGenerale String?               @db.Text
+  notes               String?               @db.Text
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+
+  client              Client                @relation(fields: [clientId], references: [id])
+  fournisseur         Fournisseur?          @relation(fields: [fournisseurId], references: [id])
+  marchandises        Marchandise[]
+  conteneurs          ExpeditionConteneur[]
+  stocks              Stock[]
+  livraisons          Livraison[]
+  documents           Document[]
+  paiements           Paiement[]
+  factures            Facture[]
+  achats              AchatFournisseur[]
+  suiviProduction     SuiviProductionEtape[]
+  depenses            Depense[]
+}
+
+model Marchandise {
+  id                Int       @id @default(autoincrement())
+  expeditionId      Int
+  description       String
+  categorie         String?
+  marque            String?
+  modele            String?
+  referenceFournisseur String?
+  quantite          Int
+  unite             String?   @default("pcs")
+  poidsUnitaire     Decimal?  @db.Decimal(10, 2)
+  poidsTotalKg      Decimal?  @db.Decimal(10, 2)
+  longueurCm        Decimal?  @db.Decimal(8, 2)
+  largeurCm         Decimal?  @db.Decimal(8, 2)
+  hauteurCm         Decimal?  @db.Decimal(8, 2)
+  cbm               Decimal?  @db.Decimal(10, 4)
+  prixUnitaireAchat Decimal?  @db.Decimal(12, 2)
+  prixUnitaireVente Decimal?  @db.Decimal(12, 2)
+  valeurUnitaire    Decimal?  @db.Decimal(12, 2)
+  valeurTotale      Decimal?  @db.Decimal(12, 2)
+  nombreColis       Int?
+  photoProduit      String?
+  notes             String?   @db.Text
+  createdAt         DateTime  @default(now())
+
+  expedition        Expedition @relation(fields: [expeditionId], references: [id], onDelete: Cascade)
+  stocks            Stock[]
+}
+
+model DemandeAchat {
+  id                Int                   @id @default(autoincrement())
+  clientId          Int
+  reference         String                @unique
+  date              DateTime              @default(now())
+  produitRecherche  String
+  categorieProduit  String?
+  quantiteDemandee  Int
+  budgetEstime      Decimal?              @db.Decimal(14, 2)
+  photoReference    String?
+  description       String?               @db.Text
+  dateSouhaitee     DateTime?
+  statut            DemandeAchatStatut    @default(NOUVELLE)
+  createdAt         DateTime              @default(now())
+  updatedAt         DateTime              @updatedAt
+
+  client            Client                @relation(fields: [clientId], references: [id])
+}
+
+model AchatFournisseur {
+  id                  Int       @id @default(autoincrement())
+  expeditionId        Int
+  fournisseurId       Int
+  dateCommande        DateTime  @default(now())
+  montantAchat        Decimal?  @db.Decimal(14, 2)
+  devise              String    @default("CNY")
+  tauxConversion      Decimal?  @db.Decimal(8, 4)
+  montantFcfa         Decimal?  @db.Decimal(14, 2)
+  acompte             Decimal?  @db.Decimal(14, 2)
+  dateAcompte         DateTime?
+  solde               Decimal?  @db.Decimal(14, 2)
+  dateDebutProduction DateTime?
+  dateFinPrevue       DateTime?
+  dateFinReelle       DateTime?
+  bl                  String?
+  factureFournisseur  String?
+  photo               String?
+  notes               String?   @db.Text
+  createdAt           DateTime  @default(now())
+
+  expedition          Expedition  @relation(fields: [expeditionId], references: [id])
+  fournisseur         Fournisseur @relation(fields: [fournisseurId], references: [id])
+}
+
+model SuiviProductionEtape {
+  id                Int             @id @default(autoincrement())
+  expeditionId      Int
+  date              DateTime        @default(now())
+  etape             ProductionEtape
+  commentaire       String?         @db.Text
+  photos            String?
+  documents         String?
+  createdAt         DateTime        @default(now())
+
+  expedition        Expedition      @relation(fields: [expeditionId], references: [id], onDelete: Cascade)
+}
+
+model Conteneur {
+  id                  Int                   @id @default(autoincrement())
+  numero              String                @unique
+  type                ConteneurType         @default(DC20)
+  capaciteMaxCbm      Decimal?              @db.Decimal(8, 2)
+  capaciteMaxKg       Decimal?              @db.Decimal(10, 2)
+  transporteur        String?
+  nomNavire           String?
+  numeroVoyage        String?
+  statut              ConteneurStatut       @default(EN_PREPARATION)
+  paysDepart          String?
+  villeDepart         String?
+  portDepart          String?
+  paysDestination     String?
+  villeDestination    String?
+  portArrivee         String?
+  dateChargement      DateTime?
+  dateDepart          DateTime?
+  dateArriveeEstimee  DateTime?
+  dateArriveeReelle   DateTime?
+  notes               String?               @db.Text
+  clotureProfit       Decimal?              @db.Decimal(14, 2)
+  clotureLe           DateTime?
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+
+  expeditions         ExpeditionConteneur[]
+  depenses            Depense[]
+  factures            Facture[]
+}
+
+model ExpeditionConteneur {
+  id              Int       @id @default(autoincrement())
+  expeditionId    Int
+  conteneurId     Int
+  cbmEmbarque     Decimal?  @db.Decimal(10, 3)
+  poidsEmbarque   Decimal?  @db.Decimal(10, 2)
+  colisEmbarques  Int?
+  valeurEmbarquee Decimal?  @db.Decimal(14, 2)
+  notes           String?   @db.Text
+  dateChargement  DateTime?
+  createdAt       DateTime  @default(now())
+
+  expedition      Expedition @relation(fields: [expeditionId], references: [id], onDelete: Cascade)
+  conteneur       Conteneur  @relation(fields: [conteneurId], references: [id], onDelete: Cascade)
+
+  @@unique([expeditionId, conteneurId])
+}
+
+model Stock {
+  id                Int           @id @default(autoincrement())
+  expeditionId      Int
+  clientId          Int
+  marchandiseId     Int
+  description       String
+  quantiteInitiale  Int
+  quantiteRestante  Int
+  poidsInitialKg    Decimal?      @db.Decimal(10, 2)
+  poidsRestantKg    Decimal?      @db.Decimal(10, 2)
+  dateMiseEnStock   DateTime      @default(now())
+  statut            StockStatut   @default(EN_STOCK)
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  expedition        Expedition    @relation(fields: [expeditionId], references: [id])
+  client            Client        @relation(fields: [clientId], references: [id])
+  marchandise       Marchandise   @relation(fields: [marchandiseId], references: [id])
+  livraisons        Livraison[]
+}
+
+model Livraison {
+  id              Int       @id @default(autoincrement())
+  stockId         Int
+  expeditionId    Int
+  clientId        Int
+  quantiteRetiree Int
+  poidsRetireKg   Decimal?  @db.Decimal(10, 2)
+  retraitPar      String?
+  telephoneRetrait String?
+  cnibRetrait     String?
+  photoCNIB       String?
+  photoMarchandise String?
+  signature       String?
+  dateLivraison   DateTime  @default(now())
+  notes           String?   @db.Text
+  createdAt       DateTime  @default(now())
+
+  stock           Stock      @relation(fields: [stockId], references: [id])
+  expedition      Expedition @relation(fields: [expeditionId], references: [id])
+  client          Client     @relation(fields: [clientId], references: [id])
+}
+
+model Document {
+  id              Int           @id @default(autoincrement())
+  expeditionId    Int
+  nom             String
+  type            DocumentType
+  cheminFichier   String
+  taille          Int?
+  mimeType        String?
+  createdAt       DateTime      @default(now())
+
+  expedition      Expedition    @relation(fields: [expeditionId], references: [id], onDelete: Cascade)
+}
+
+model Depense {
+  id                Int               @id @default(autoincrement())
+  conteneurId       Int?
+  expeditionId      Int?
+  commandeId        Int?
+  titre             String?
+  date              DateTime          @default(now())
+  type              DepenseType
+  categoriePersonnalisee String?
+  montant           Decimal           @db.Decimal(14, 2)
+  devise            String            @default("XAF")
+  tauxChange        Decimal?          @db.Decimal(8, 4)
+  montantXaf        Decimal?          @db.Decimal(14, 2)
+  liaison           DepenseLiaison    @default(CONTENEUR)
+  description       String?           @db.Text
+  fournisseur       String?
+  justificatifType  JustificatifType?
+  justificatifPath  String?
+  createdAt         DateTime          @default(now())
+
+  conteneur         Conteneur?        @relation(fields: [conteneurId], references: [id], onDelete: Cascade)
+  expedition        Expedition?       @relation(fields: [expeditionId], references: [id], onDelete: Cascade)
+}
+
+model Paiement {
+  id                  Int             @id @default(autoincrement())
+  expeditionId        Int
+  date                DateTime        @default(now())
+  montant             Decimal         @db.Decimal(14, 2)
+  devise              String          @default("XAF")
+  tauxChange          Decimal?        @db.Decimal(8, 4)
+  montantXaf          Decimal?        @db.Decimal(14, 2)
+  type                PaiementType    @default(ACOMPTE)
+  modePaiement        ModePaiement?
+  reference           String?
+  referenceTransaction String?
+  montantFacture      Decimal?        @db.Decimal(14, 2)
+  resteAPayer         Decimal?        @db.Decimal(14, 2)
+  pieceJointe         String?
+  notes               String?         @db.Text
+  createdAt           DateTime        @default(now())
+
+  expedition          Expedition      @relation(fields: [expeditionId], references: [id], onDelete: Cascade)
+}
+
+model Facture {
+  id              Int             @id @default(autoincrement())
+  numero          String          @unique
+  clientId        Int
+  expeditionId    Int
+  conteneurId     Int?
+  date            DateTime        @default(now())
+  montantHt       Decimal         @db.Decimal(14, 2)
+  tauxTva         Decimal?        @db.Decimal(5, 2)  @default(18.00)
+  montantTva      Decimal?        @db.Decimal(14, 2)
+  montantTtc      Decimal         @db.Decimal(14, 2)
+  devise          String          @default("XAF")
+  statut          FactureStatut   @default(EMISE)
+  dateEcheance    DateTime?
+  notes           String?         @db.Text
+  createdAt       DateTime        @default(now())
+
+  client          Client          @relation(fields: [clientId], references: [id])
+  expedition      Expedition      @relation(fields: [expeditionId], references: [id])
+  conteneur       Conteneur?      @relation(fields: [conteneurId], references: [id])
+}
+
+model User {
+  id                Int           @id @default(autoincrement())
+  nom               String
+  email             String        @unique
+  motDePasse        String
+  role              UserRole      @default(AGENT)
+  actif             Boolean       @default(true)
+  dernierConnexion  DateTime?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  notifications     Notification[]
+  auditLogs         AuditLog[]
+}
+
+model Notification {
+  id        Int               @id @default(autoincrement())
+  userId    Int
+  titre     String
+  message   String            @db.Text
+  type      NotificationType  @default(INFO)
+  lue       Boolean           @default(false)
+  lien      String?
+  createdAt DateTime          @default(now())
+
+  user      User              @relation(fields: [userId], references: [id])
+}
+
+model AuditLog {
+  id              Int       @id @default(autoincrement())
+  userId          Int?
+  entite          String
+  entiteId        Int
+  action          String
+  ancienneValeur  Json?
+  nouvelleValeur  Json?
+  ipAddress       String?
+  createdAt       DateTime  @default(now())
+
+  user            User?     @relation(fields: [userId], references: [id])
+}
+
+// ══ ENUMS ══
+
+enum ClientType {
+  PARTICULIER
+  ENTREPRISE
+}
+
+enum ClientStatut {
+  ACTIF
+  INACTIF
+}
+
+enum TypeCommande {
+  TRANSIT
+  COMPLETE
+}
+
+enum TypeTransport {
+  MARITIME
+  AERIEN
+  ROUTIER
+  FERROVIAIRE
+}
+
+enum ExpeditionStatut {
+  EN_ATTENTE
+  EN_PREPARATION
+  EN_TRANSIT
+  ARRIVE
+  DOUANE
+  EN_STOCK
+  LIVRE
+  PARTIELLEMENT_LIVRE
+}
+
+enum ConteneurType {
+  DC20
+  DC40
+  HC40
+  AERIEN
+  ROUTIER
+}
+
+enum ConteneurStatut {
+  EN_PREPARATION
+  CHARGE
+  EN_TRANSIT
+  ARRIVE
+  DOUANE
+  FERME
+  VIDE
+}
+
+enum StockStatut {
+  EN_STOCK
+  PARTIELLEMENT_RETIRE
+  RETIRE
+}
+
+enum DocumentType {
+  FACTURE
+  PACKING_LIST
+  CONNAISSEMENT
+  BON_COMMANDE
+  DEVIS
+  PREUVE_LIVRAISON
+  AUTRE
+}
+
+enum DepenseType {
+  FRET
+  DOUANE
+  CAMIONNAGE
+  MANUTENTION
+  STOCKAGE
+  ASSURANCE
+  SURCHARGE
+  DIVERSE
+}
+
+enum DepenseLiaison {
+  CONTENEUR
+  COMMANDE
+  GENERAL
+}
+
+enum JustificatifType {
+  PDF
+  PHOTO
+  FACTURE
+  RECU
+}
+
+enum PaiementType {
+  ACOMPTE
+  SOLDE
+}
+
+enum ModePaiement {
+  ESPECES
+  ORANGE_MONEY
+  MOOV_MONEY
+  VIREMENT
+  CHEQUE
+}
+
+enum FactureStatut {
+  EMISE
+  PAYEE
+  EN_RETARD
+  ANNULEE
+}
+
+enum UserRole {
+  ADMIN
+  AGENT
+  COMMERCIAL
+  COMPTABLE
+  LECTEUR
+  CLIENT
+}
+
+enum NotificationType {
+  INFO
+  SUCCESS
+  WARNING
+  DANGER
+}
+
+enum DemandeAchatStatut {
+  NOUVELLE
+  RECHERCHE_FOURNISSEUR
+  DEVIS_RECU
+  VALIDEE
+  REFUSEE
+}
+
+enum ProductionEtape {
+  COMMANDEE
+  ACOMPTE_VRESE
+  LANCEE
+  CONTROLE_QUALITE
+  TERMINEE
+  ENTREPOT
+  CHARGEE
+  EXPEDIEE
+}
